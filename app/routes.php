@@ -13,5 +13,33 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+	$posts = Post::all();
+
+	return View::make('home', array('posts' => $posts));
+});
+
+
+
+
+Route::get('post/{slug}', function($slug)
+{
+	$post = Post::whereSlug($slug)->first();
+
+	if ( ! $post)
+		return Redirect::to('/');
+
+	return View::make('post', array('post' => $post));
+});
+
+
+
+
+Route::get('user/{id}', function($id)
+{
+	$user = User::find($id);
+
+	if ( ! $user)
+		return Redirect::to('/');
+
+	return View::make('user', array('user' => $user));
 });
